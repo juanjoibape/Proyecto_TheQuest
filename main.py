@@ -16,12 +16,15 @@ AZUL    = (  0,   0, 255)
 
 #crear ventana y sus dimnensiones
 PANTALLA = pygame.display.set_mode((800, 500))
+#añadir nombre del juego
+pygame.display.set_caption("TheQuest")
 #pintar pantalla
 PANTALLA.fill(BLANCO)
 
 #pintar un rectángulo
-RECTANGULO_AZUL = pygame.draw.rect(PANTALLA, AZUL, (350, 400, 60, 40))
-print(RECTANGULO_AZUL)
+pygame.draw.rect(PANTALLA, AZUL, (350, 400, 60, 40))
+#pintar cirulo
+pygame.draw.circle(PANTALLA, ROJO, (100, 100), 10, 0)
 
 #mantener ventana abierta y poder cerrar, bucle principal
 while True:
