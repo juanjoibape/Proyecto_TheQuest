@@ -2,56 +2,30 @@
 
 #importando libreria e iniciandola
 import pygame
-pygame.init
 
 import sys
 
+pygame.init
+
 #definir colores
-BLACK   = (  0,   0,   0)
-WHITE   = (255, 255, 255)
-GREEN   = (  0, 255,   0)
-RED     = (255,   0,   0)
-BLUE    = (  0,   0, 255)
+NEGRO   = (  0,   0,   0)
+BLANCO  = (255, 255, 255)
+VERDE   = (  0, 255,   0)
+ROJO    = (255,   0,   0)
+AZUL    = (  0,   0, 255)
 
-#dimensiones ventana
-size = (800, 500)
+#crear ventana y sus dimnensiones
+PANTALLA = pygame.display.set_mode((800, 500))
+#pintar pantalla
+PANTALLA.fill(BLANCO)
 
-#crear ventana
-screen = pygame.display.set_mode(size)
-#self.image.fill(WHITE)
-
-FPS = 30
-
-#coordenadas rectángulo
-#cord_x = 400
-#cord_y = 200
-
-#velocidad a la que mueve el rectángulo
-#speed_x = 3
-#speed_y = 3
+#pintar un rectángulo
+RECTANGULO_AZUL = pygame.draw.rect(PANTALLA, AZUL, (350, 400, 60, 40))
+print(RECTANGULO_AZUL)
 
 #mantener ventana abierta y poder cerrar, bucle principal
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-
-#pintar fondo de pantalla
-
-#sprite del jugador
-class Jugador(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        #rectángulo jugador
-        self.image = pygame.Surface((200, 200))
-        self.image.fill(RED)
-        # obtiene el rectángulo (sprite)
-        self.rect = self.image.get_rect()
-        # posicion del rectángulo
-        self.rect.center = (400, 100)
-
-        def update(self):
-            #actualiza cada bucle
-            self.rect.y += 10
-            if self.rect.top > ALTO:
-                self.rect.bottom = 0
+    pygame.display.update()
