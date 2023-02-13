@@ -25,6 +25,10 @@ PANTALLA.fill(BLANCO)
 fondo = pygame.image.load("imagenes/fondo_galaxia2.jpg")
 PANTALLA.blit(fondo,(0,0))
 
+#música de fondo
+pygame.mixer.music.load("musica/Intergalactic_Odyssey.ogg")
+pygame.mixer.music.play(-1)
+
 #pintar un rectángulo
 pygame.draw.rect(PANTALLA, ROJO, (270,350, 60, 40))
 #pintar cirulo
