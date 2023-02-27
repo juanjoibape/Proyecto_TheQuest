@@ -9,10 +9,17 @@ H = 600
 #iniciar pygame
 pg.init()
 
+#iniciar musica
+pg.mixer.init()
+
 #crear pantalla
 pantalla = pg.display.set_mode((W, H))
 pg.display.set_caption("TheQuest")
 clock = pg.time.Clock()
+
+#musica de fondo
+pg.mixer.music.load("musica/Intergalactic_Odyssey.ogg")
+pg.mixer.music.play(-1)
 
 #crear nave jugador
 class Nave(pg.sprite.Sprite):
