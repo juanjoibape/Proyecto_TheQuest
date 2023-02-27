@@ -1,42 +1,92 @@
-#Crear juego con pygame
 
-#importando libreria e iniciandola
-import pygame
+#importar librerias
+import pygame as pg
+import random
 
-import sys
+W = 800
+H = 600
 
-pygame.init()
+#iniciar pygame
+pg.init()
 
-#definir colores
-NEGRO   = (  0,   0,   0)
-BLANCO  = (255, 255, 255)
-VERDE   = (  0, 255,   0)
-ROJO    = (255,   0,   0)
-AZUL    = (  0,   0, 255)
+#crear pantalla
+pantalla = pg.display.set_mode((W, H))
+pg.display.set_caption("TheQuest")
+clock = pg.time.Clock()
 
-#crear ventana y sus dimnensiones
-PANTALLA = pygame.display.set_mode((600, 400))
-#añadir nombre del juego
-pygame.display.set_caption("TheQuest")
-#pintar pantalla
-PANTALLA.fill(BLANCO)
+#crear nave jugador
+class Nave(pg.sprite.Sprite):
+	def __init__(self):
+		super().__init__()
+		self.image = pg.image.load("imagenes/nave1.png")
+		self.rect = self.image.get_rect()
+		self.rect.centerx = W // 2
+		self.rect.bottom = H - 10
+		self.speed_x = 0
 
-#fondo del juego
-fondo = pygame.image.load("imagenes/fondo_galaxia2.jpg")
-PANTALLA.blit(fondo,(0,0))
+	def update(self):
+		self.speed_x = 0
+		keystate = pg.key.get_pressed()
+		if keystate[pg.K_LEFT]:
+			self.speed_x = -5
+		if keystate[pg.K_RIGHT]:
+			self.speed_x = 5
+		self.rect.x += self.speed_x
+		if self.rect.right > W:
+			self.rect.right = W
+		if self.rect.left < 0:
+			self.rect.left = 0
 
-#música de fondo
-pygame.mixer.music.load("musica/Intergalactic_Odyssey.ogg")
-pygame.mixer.music.play(-1)
+#crear meteoritos enemigos
+class Meteorito(pg.sprite.Sprite):
+	def __init__(self):
+		super().__init__()
+		self.image = pg.image.load("imagenes/meteorito2.png")
+		self.rect = self.image.get_rect()
+		self.rect.x = random.randrange(W - self.rect.w)
+		self.rect.y = random.randrange(-100, -40)
+		self.speedy = random.randrange(1, 10)
+		self.speedx = random.randrange(-5, 5)
 
-#pintar un rectángulo
-pygame.draw.rect(PANTALLA, ROJO, (270,350, 60, 40))
-#pintar cirulo
-pygame.draw.circle(PANTALLA, NEGRO, (100, 100), 10, 0)
+	def update(self):
+		self.rect.x += self.speedx
+		self.rect.y += self.speedy
+		if self.rect.top > H + 10 or self.rect.left < -25 or self.rect.right > W + 22 :
+			self.rect.x = random.randrange(W - self.rect.width)
+			self.rect.y = random.randrange(-100, -40)
+			self.speedy = random.randrange(1, 8)
+			
+#cargar fondo
+fondo = pg.image.load("imagenes/fondo_galaxia2.png")
 
-#mantener ventana abierta y poder cerrar, bucle principal
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-    pygame.display.update() #actualización de pantalla
+#cargar nave y meteoritos
+all_sprites = pg.sprite.Group()
+meteorito_list = pg.sprite.Group()
+
+Nave = Nave()
+all_sprites.add(Nave)
+
+for i in range(10):
+	meteorito = Meteorito()
+	all_sprites.add(meteorito)
+	meteorito_list.add(meteorito)
+
+#bucle principal
+running = True
+while running:
+	clock.tick(60)
+	for event in pg.event.get():
+		if event.type == pg.QUIT:
+			running = False
+		
+
+	# actualizar nave y meteoritos
+	all_sprites.update()
+
+	#pintar pantalla y fondo
+	pantalla.blit(fondo, [0, 0])
+	all_sprites.draw(pantalla)
+	
+	pg.display.flip()
+
+pg.quit()
