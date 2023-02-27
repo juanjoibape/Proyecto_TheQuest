@@ -89,11 +89,15 @@ while running:
 
 	# actualizar nave y meteoritos
 	all_sprites.update()
-
-	#pintar pantalla y fondo
+	'''
+	colision = pg.sprite.spritecollide(Nave, meteorito_list, False)
+	if colision:
+		meteorito.image = pg.image.load("imagenes/explosion.png")
+	'''
+    #pintar pantalla y fondo
 	pantalla.blit(fondo, [0, 0])
 	all_sprites.draw(pantalla)
-	
+        
 	pg.display.flip()
 
 pg.quit()
